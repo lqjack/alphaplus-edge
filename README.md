@@ -23,7 +23,7 @@
 
 ## 30 秒快速开始
 
-**前置：** Python 3.10+、可选 OpenCLI + wx-cli、已运行的 [Neura Gateway](https://github.com/lqjack/dataproaiset)（`:8001`）
+**前置：** Python 3.10+、可选 OpenCLI + wx-cli、已运行的 AlphaPlus Cloud Gateway（`https://alphaplus-api.datapro.asia` 或自建）
 
 ```bash
 git clone https://github.com/lqjack/alphaplus-edge.git
@@ -90,8 +90,8 @@ bash scripts/edge/edge-doctor.sh
 
 | 仓库 | 角色 |
 |------|------|
-| **[alphaplus-edge](https://github.com/lqjack/alphaplus-edge)**（本仓） | 公开：Edge Agent、桌面安装包、本机 MCP、营销与 Demo |
-| **[dataproaiset](https://github.com/lqjack/dataproaiset)** | 全栈：Gateway、Stock、Neura Runtime、RAG、Landing |
+| **[alphaplus-edge](https://github.com/lqjack/alphaplus-edge)**（本仓 · **public**） | Edge Agent、桌面安装包、本机 MCP、营销与 Demo |
+| **dataproaiset** monorepo（**private**） | 全栈：Gateway、Stock、Neura Runtime、RAG · Live：https://alphaplus.datapro.asia |
 
 本仓 **不替代** monorepo 中的 `scripts/edge/` 与 `edge-desktop/` —— 两边并行维护；发布前用 `scripts/sync-from-monorepo.sh` 对齐代码。
 
