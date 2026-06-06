@@ -1,0 +1,17 @@
+edge_servers:
+  # Canonical WeChat Official Account OpenCLI service is opencli_weixin (:10485).
+  # wechat_viewer (:10470) remains a backward-compatible alias (same OpenCLIWeixinToolHandler).
+  - xiaohongshu
+  - wx_cli
+  - opencli_weixin
+  - wechat_viewer
+
+tools_require_edge_prefix:
+  - xiaohongshu.
+  - wx_cli.
+  - opencli_weixin.
+  - wechat_viewer.
+
+edge_agent:
+  default_health_port: 10490
+  default_callback_path: /api/tools/call

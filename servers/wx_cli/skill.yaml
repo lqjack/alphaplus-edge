@@ -1,0 +1,11 @@
+name: 查询微信会话
+description: 列出最近微信聊天会话（需本机 wx-cli 已 init）
+version: 1.0.0
+category: social
+steps:
+  - id: list_sessions
+    action: mcp
+    server: wx_cli
+    tool: wx_list_sessions
+    inputs:
+      limit: 20

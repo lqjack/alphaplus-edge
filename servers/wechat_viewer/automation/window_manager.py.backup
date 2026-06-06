@@ -1,0 +1,220 @@
+"""
+Window Management Component
+
+Handles all window-related operations including bringing WeChat to front,
+getting window bounds, and window visibility verification.
+"""
+
+import traceback
+import logging
+import time
+from typing import Dict, Optional, Tuple, Any
+from dataclasses import dataclass
+
+# Handle mcp_core imports gracefully
+try:
+    # Handle mcp_core imports gracefully
+try:
+    from mcp_core.interfaces import IWindowManager, IGUIAutomation, WindowBounds
+    MCP_CORE_INTERFACES_AVAILABLE = True
+except ImportError:
+    # Define fallback interfaces if mcp_core is not available
+    MCP_CORE_INTERFACES_AVAILABLE = False
+
+    # Define minimal fallback interfaces
+    class IWindowManager: pass
+    class IGUIAutomation: pass
+
+    # Define minimal dataclass
+    from dataclasses import dataclass
+    @dataclass
+    class WindowBounds:
+        X: float = 0.0
+        Y: float = 0.0
+        Width: float = 0.0
+        Height: float = 0.0
+    MCP_CORE_INTERFACES_AVAILABLE = True
+except ImportError:
+    # Define fallback interfaces if mcp_core is not available
+    MCP_CORE_INTERFACES_AVAILABLE = False
+
+    # Define minimal fallback interfaces
+    class IWindowManager: pass
+    class IGUIAutomation: pass
+
+    # Define minimal dataclass
+    from dataclasses import dataclass
+    @dataclass
+    class WindowBounds:
+        X: float = 0.0
+        Y: float = 0.0
+        Width: float = 0.0
+        Height: float = 0.0
+
+
+class WindowManager:
+    """Manages WeChat window operations"""
+    
+    def __init__(self, window_manager: IWindowManager, gui_automation: IGUIAutomation):
+        self.window_manager = window_manager
+        self.gui_automation = gui_automation
+        self.logger = logging.getLogger("mcp-server-wechat-viewer-mcp.window_manager")
+        self.wechat_bundle_id = "com.tencent.xinWeChat"
+        
+    def bring_to_front(self) -> bool:
+        """Bring WeChat window to front"""
+        try:
+            # 添加空值检查
+            if not self.window_manager:
+                self.logger.error("window_manager is None, cannot bring to front")
+                return False
+            self.logger.info("Bringing WeChat window to front")
+            success = self.window_manager.bring_to_front()
+            if success:
+                self.logger.info("WeChat window successfully brought to front")
+            else:
+                self.logger.warning("Failed to bring WeChat window to front")
+            return success
+        except Exception as e:
+            self.logger.error(f"Error bringing WeChat window to front: {e}")
+            return False
+    
+    def bring_to_front_fast(self) -> bool:
+        """Lightweight bring-to-front, skips full activation if already frontmost"""
+        try:
+            if not self.window_manager:
+                self.logger.error("window_manager is None, cannot bring to front")
+                return False
+            if hasattr(self.window_manager, 'bring_to_front_fast'):
+                return self.window_manager.bring_to_front_fast()
+            return self.bring_to_front()
+        except Exception as e:
+            self.logger.error(f"Error in bring_to_front_fast: {e}")
+            return False
+    
+    def is_frontmost(self) -> bool:
+        """Check if WeChat is currently the frontmost application"""
+        try:
+            if not self.window_manager:
+                return False
+            if hasattr(self.window_manager, 'is_frontmost'):
+                return self.window_manager.is_frontmost()
+            return False
+        except Exception:
+            return False
+    
+    def ensure_wechat_running(self) -> bool:
+        """Ensure WeChat application is running"""
+        try:
+            if hasattr(self.window_manager, 'ensure_wechat_running'):
+                self.logger.info("Ensuring WeChat application is running")
+                return self.window_manager.ensure_wechat_running()
+            else:
+                self.logger.info("ensure_wechat_running method not available")
+                return True
+        except Exception as e:
+            self.logger.error(f"Error ensuring WeChat is running: {e}")
+            return False
+    
+    def verify_visibility(self) -> bool:
+        """Verify that WeChat window is actually visible and active"""
+        try:
+            # 添加空值检查
+            if not self.window_manager:
+                self.logger.error("window_manager is None, cannot verify visibility")
+                return False
+            self.logger.info("Verifying WeChat window visibility")
+            success = self.window_manager.verify_visibility()
+            if success:
+                self.logger.info("WeChat window visibility verified successfully")
+            else:
+                self.logger.warning("WeChat window visibility verification failed")
+            return success
+        except Exception as e:
+            self.logger.error(f"Error verifying window visibility: {e}")
+            return False
+    
+    def get_window_bounds(self) -> Optional[WindowBounds]:
+        """Get WeChat window bounds"""
+        try:
+            # 添加空值检查
+            if not self.window_manager:
+                self.logger.error("window_manager is None, cannot get bounds")
+                return None
+                
+            self.logger.info("Getting WeChat window bounds")
+            bounds = self.window_manager.get_window_bounds()
+            if bounds:
+                self.logger.info(f"WeChat window bounds: {bounds}")
+                # WindowBounds now inherits from dict, so it might be dict or object
+                if isinstance(bounds, WindowBounds):
+                    return bounds
+                return WindowBounds(**bounds)
+            else:
+                self.logger.warning("Could not retrieve WeChat window bounds")
+                return None
+        except Exception as e:
+            self.logger.error(f"Error getting window bounds: {e}")
+            return None
+
+    # ====== Focus-ensured interactions ======
+    
+    def click_at(self, x: float, y: float) -> bool:
+        """Click with focus assurance"""
+        try:
+            self.bring_to_front()
+            self.logger.info(f"Clicking at coordinates (x={x}, y={y})")
+            return self.gui_automation.click_at(x, y)
+        except Exception as e:
+            self.logger.error(f"Error clicking at coordinates: {e}")
+            return False
+            
+    def type_text(self, text: str) -> bool:
+        """Type with focus assurance"""
+        try:
+            self.bring_to_front()
+            self.logger.info(f"Typing text: {text}")
+            return self.gui_automation.type_text(text)
+        except Exception as e:
+            self.logger.error(f"Error typing text: {e}")
+            return False
+            
+    def press_key(self, key: str) -> bool:
+        """Press key with focus assurance"""
+        try:
+            self.bring_to_front()
+            self.logger.info(f"Pressing key: {key}")
+            return self.gui_automation.press_key(key)
+        except Exception as e:
+            self.logger.error(f"Error pressing key: {key}: {e}")
+            return False
+            
+    def scroll_down(self) -> bool:
+        """Scroll with focus assurance"""
+        try:
+            self.bring_to_front()
+            self.logger.info("Scrolling down")
+            return self.gui_automation.scroll_down()
+        except Exception as e:
+            self.logger.error(f"Error scrolling down: {e}")
+            return False
+            
+    def clear_input(self) -> bool:
+        """Clear input with focus assurance"""
+        try:
+            self.bring_to_front()
+            self.logger.info("Clearing input")
+            return self.gui_automation.clear_input()
+        except Exception as e:
+            self.logger.error(f"Error clearing input: {e}")
+            return False
+
+    def close_tab(self) -> bool:
+        """Close tab with focus assurance"""
+        try:
+            self.bring_to_front()
+            self.logger.info("Closing tab")
+            return self.gui_automation.close_tab()
+        except Exception as e:
+            self.logger.error(f"Error closing tab: {e}")
+            return False

@@ -1,0 +1,39 @@
+# 忽略系统文件
+.git
+.gitignore
+.DS_Store
+
+# 忽略开发环境文件
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 忽略虚拟环境
+venv/
+env/
+
+# 忽略日志文件
+*.log
+
+# 忽略临时文件
+*.tmp
+*.swp
+
+# 忽略测试文件
+tests/
+test_*.py
+
+# 忽略构建文件
+build/
+dist/
+
+# 忽略 Docker 相关文件
+docker-compose.yml
+Dockerfile
+
+# 忽略其他无关文件
+*.bak
+*.bak.*
+
+.venv/

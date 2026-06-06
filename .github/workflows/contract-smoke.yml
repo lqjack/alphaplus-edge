@@ -1,0 +1,35 @@
+name: contract-smoke
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install test deps
+        run: pip install pytest websockets
+
+      - name: Contract tests (no LIVE gateway)
+        run: |
+          if ls scripts/edge/test_edge_*_contract.py 1>/dev/null 2>&1; then
+            python3 -m pytest scripts/edge/test_edge_*_contract.py -q
+          else
+            echo "SKIP: sync scripts/edge from monorepo first"
+            exit 0
+          fi
+
+      - name: Edge WS unit (edge_ws.py)
+        run: |
+          if [[ -f scripts/edge/test_edge_ws_contract.py ]]; then
+            python3 -m pytest scripts/edge/test_edge_ws_contract.py -q
+          fi

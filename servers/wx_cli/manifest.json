@@ -1,0 +1,31 @@
+{
+  "id": "wx_cli",
+  "name": "个人微信聊天 (wx-cli)",
+  "description": "通过 jackwener/wx-cli 读取本机已解密微信数据库：会话、历史、搜索、联系人、群成员。需在 Runner 宿主机安装 wx 并完成 wx init。",
+  "category": "social",
+  "version": "0.1.0",
+  "icon": "💬",
+  "expectedTools": [
+    "wx_list_sessions",
+    "wx_get_history",
+    "wx_search_messages",
+    "wx_get_unread",
+    "wx_get_new_messages",
+    "wx_list_contacts",
+    "wx_get_members",
+    "wx_daemon_status"
+  ],
+  "transport": {
+    "default": "api",
+    "mcp": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["mcp_server.py"]
+    },
+    "api": {
+      "baseUrl": "http://127.0.0.1:10475",
+      "executePath": "/api/tools/call",
+      "healthPath": "/health"
+    }
+  }
+}

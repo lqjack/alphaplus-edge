@@ -1,0 +1,37 @@
+Metadata-Version: 2.4
+Name: wechat-viewer
+Version: 0.1.0
+Summary: wechat viewer
+Author-email: Your Name <your.email@example.com>
+Requires-Python: >=3.10
+Requires-Dist: pyautogui>=0.9.50
+Requires-Dist: pyobjc-framework-Quartz; sys_platform == "darwin"
+Requires-Dist: pywin32; sys_platform == "win32"
+Requires-Dist: python-xlib; sys_platform == "linux"
+Requires-Dist: pillow>=11.0.0
+Requires-Dist: pytesseract>=0.3.10
+Requires-Dist: mcp>=1.2.0
+Requires-Dist: httpx>=0.25.0
+Requires-Dist: networkx
+Requires-Dist: dspy
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: flask
+Requires-Dist: requests
+Requires-Dist: loguru
+Requires-Dist: pyqrcode
+Requires-Dist: apscheduler
+Requires-Dist: xmltodict
+Requires-Dist: colorama
+Requires-Dist: openai
+Requires-Dist: numpy
+Requires-Dist: bs4
+Requires-Dist: retry
+Requires-Dist: pymysql
+Requires-Dist: pyquery
+Requires-Dist: flask_restful
+Requires-Dist: flask_socketio
+Requires-Dist: flask_cors
+Requires-Dist: flask_sqlalchemy
+Requires-Dist: alembic
+Requires-Dist: psutil
+Requires-Dist: opencv-python-headless<4.10

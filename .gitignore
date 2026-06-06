@@ -1,0 +1,16 @@
+.env
+.env.edge
+.env.local
+.venv/
+venv/
+*.log
+.edge-runtime/
+dist/
+node_modules/
+edge-desktop/src-tauri/target/
+**/.mcp_venv/
+**/__pycache__/
+*.pyc
+.DS_Store
+*.dmg
+*.app

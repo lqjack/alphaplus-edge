@@ -1,0 +1,14 @@
+{
+  "name": "alphaplus-edge",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AlphaPlus Edge desktop bridge — health server + cloud tunnel",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build --bundles app",
+    "tauri": "tauri"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.2.0"
+  }
+}

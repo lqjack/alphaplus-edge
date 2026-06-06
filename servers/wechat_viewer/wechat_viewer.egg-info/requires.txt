@@ -1,0 +1,37 @@
+pyautogui>=0.9.50
+pillow>=11.0.0
+pytesseract>=0.3.10
+mcp>=1.2.0
+httpx>=0.25.0
+networkx
+dspy
+python-dotenv>=1.0.0
+flask
+requests
+loguru
+pyqrcode
+apscheduler
+xmltodict
+colorama
+openai
+numpy
+bs4
+retry
+pymysql
+pyquery
+flask_restful
+flask_socketio
+flask_cors
+flask_sqlalchemy
+alembic
+psutil
+opencv-python-headless<4.10
+
+[:sys_platform == "darwin"]
+pyobjc-framework-Quartz
+
+[:sys_platform == "linux"]
+python-xlib
+
+[:sys_platform == "win32"]
+pywin32

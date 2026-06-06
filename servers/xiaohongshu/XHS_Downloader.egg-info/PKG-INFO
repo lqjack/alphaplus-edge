@@ -1,0 +1,27 @@
+Metadata-Version: 2.4
+Name: XHS-Downloader
+Version: 2.7
+Summary: 小红书（XiaoHongShu、RedNote）链接提取/作品采集工具：提取账号发布、收藏、点赞、专辑作品链接；提取搜索结果作品、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件
+Author-email: JoeanAmier <yonglelolu@foxmail.com>
+License-Expression: GPL-3.0
+Project-URL: Repository, https://github.com/JoeanAmier/XHS-Downloader
+Requires-Python: <3.13,>=3.12
+License-File: LICENSE
+Requires-Dist: aiofiles>=25.1.0
+Requires-Dist: aiosqlite>=0.21.0
+Requires-Dist: click>=8.3.1
+Requires-Dist: emoji>=2.15.0
+Requires-Dist: fastapi>=0.124.2
+Requires-Dist: fastmcp>=2.14.0
+Requires-Dist: flask>=3.1.2
+Requires-Dist: httpx[socks]>=0.28.1
+Requires-Dist: lxml>=6.0.2
+Requires-Dist: pyperclip>=1.11.0
+Requires-Dist: pyyaml>=6.0.3
+Requires-Dist: rich>=13.9.4
+Requires-Dist: rookiepy>=0.5.6
+Requires-Dist: textual>=6.8.0
+Requires-Dist: uvicorn>=0.38.0
+Requires-Dist: websockets>=15.0.1
+Requires-Dist: bs4
+Dynamic: license-file

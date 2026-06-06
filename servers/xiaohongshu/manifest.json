@@ -1,0 +1,35 @@
+{
+  "id": "xiaohongshu",
+  "name": "小红书 MCP (OpenCLI + XHS-Downloader)",
+  "description": "笔记详情/互动指标采集（get_note_info）、大V素材 sync、OpenCLI 浏览器点赞评论回复。默认 XIAOHONGSHU_BACKEND=opencli",
+  "category": "data",
+  "version": "2.0.0",
+  "icon": "📕",
+  "expectedTools": [
+    "opencli_doctor",
+    "get_note_info",
+    "get_note_metrics",
+    "get_detail_data",
+    "sync_notes",
+    "sync_kol_notes",
+    "search_notes",
+    "browser_open",
+    "browser_state",
+    "browser_extract",
+    "xhs_like_note",
+    "xhs_comment_note",
+    "xhs_reply_comment"
+  ],
+  "transport": {
+    "default": "api",
+    "api": {
+      "baseUrl": "http://127.0.0.1:10350",
+      "executePath": "/api/tools/call",
+      "healthPath": "/health"
+    },
+    "mcp": {
+      "type": "http",
+      "url": "http://127.0.0.1:10351/mcp"
+    }
+  }
+}

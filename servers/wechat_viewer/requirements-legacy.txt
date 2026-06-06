@@ -1,0 +1,21 @@
+# Legacy GUI automation stack (WECHAT_VIEWER_BACKEND=legacy).
+# Heavy vision/YOLO/Playwright — not installed for default OpenCLI edge path.
+-r requirements-opencli.txt
+playwright>=1.40.0
+Pillow>=10.0.0
+pytesseract>=0.3.10
+numpy>=1.24.0
+opencv-python>=4.8.0
+ultralytics>=8.1.0
+yfinance>=1.2.1
+psutil>=5.9.0
+pyautogui>=0.9.54
+pyperclip>=1.8.2
+pyobjc-core>=10.0; sys_platform == 'darwin'
+pyobjc-framework-Quartz>=10.0; sys_platform == 'darwin'
+pyobjc-framework-Accessibility>=10.0; sys_platform == 'darwin'
+pyobjc-framework-Vision>=10.0; sys_platform == 'darwin'
+langgraph>=1.1.9
+langchain>=1.2.15
+langchain-openai>=1.2.0
+langchain-core>=1.3.3

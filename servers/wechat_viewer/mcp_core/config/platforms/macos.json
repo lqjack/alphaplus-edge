@@ -1,0 +1,12 @@
+{
+  "platform": "darwin",
+  "accessibility_enabled": true,
+  "screenshot_method": "pyautogui",
+  "keyboard_method": "applescript",
+  "required_permissions": ["Accessibility", "Screen Recording"],
+  "window_management": {
+    "bring_to_front_timeout": 10.0,
+    "visibility_check_retries": 3,
+    "unminimize_attempts": 2
+  }
+}

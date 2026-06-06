@@ -1,0 +1,35 @@
+{
+  "id": "wechat_viewer",
+  "name": "微信公众号 Viewer (OpenCLI alias)",
+  "description": "Backward-compatible alias for opencli_weixin on :10470. Same OpenCLIWeixinToolHandler; prefer registering opencli_weixin (:10485) for new integrations.",
+  "category": "social",
+  "version": "0.1.0",
+  "icon": "📰",
+  "deployment": "edge",
+  "canonicalService": "opencli_weixin",
+  "expectedTools": [
+    "opencli_doctor",
+    "weixin_search",
+    "weixin_download",
+    "weixin_drafts",
+    "weixin_create_draft",
+    "wechat_search_account",
+    "browser_open",
+    "browser_state",
+    "web_automation_navigate",
+    "web_automation_get_content"
+  ],
+  "transport": {
+    "default": "api",
+    "mcp": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["mcp_server.py"]
+    },
+    "api": {
+      "baseUrl": "http://127.0.0.1:10470",
+      "executePath": "/api/tools/call",
+      "healthPath": "/health"
+    }
+  }
+}

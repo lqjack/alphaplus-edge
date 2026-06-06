@@ -1,0 +1,33 @@
+{
+  "id": "opencli_weixin",
+  "name": "微信公众号 (OpenCLI)",
+  "description": "通过 jackwener/OpenCLI 操作微信公众号：搜狗搜索、文章下载 Markdown、草稿箱、浏览器自动化。需 Chrome + Browser Bridge 扩展（opencli doctor）。",
+  "category": "social",
+  "version": "0.1.0",
+  "icon": "📰",
+  "expectedTools": [
+    "opencli_doctor",
+    "weixin_search",
+    "weixin_download",
+    "weixin_drafts",
+    "weixin_create_draft",
+    "wechat_search_account",
+    "browser_open",
+    "browser_state",
+    "web_automation_navigate",
+    "web_automation_get_content"
+  ],
+  "transport": {
+    "default": "api",
+    "mcp": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["mcp_server.py"]
+    },
+    "api": {
+      "baseUrl": "http://127.0.0.1:10485",
+      "executePath": "/api/tools/call",
+      "healthPath": "/health"
+    }
+  }
+}

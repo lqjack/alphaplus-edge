@@ -1,0 +1,21 @@
+{
+  "element_location": {
+    "accessibility_timeout": 5.0,
+    "ocr_timeout": 8.0,
+    "llm_vision_timeout": 10.0,
+    "confidence_threshold": 0.7,
+    "proximity_threshold": 25
+  },
+  "execution": {
+    "click_delay": 0.1,
+    "type_delay": 0.05,
+    "key_press_delay": 0.05,
+    "scroll_amount": 10,
+    "wait_between_steps": 0.5
+  },
+  "recovery": {
+    "max_consecutive_failures": 3,
+    "recovery_attempts": 2,
+    "error_check_interval": 1.0
+  }
+}

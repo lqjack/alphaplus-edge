@@ -1,0 +1,16 @@
+LICENSE
+README.md
+pyproject.toml
+XHS_Downloader.egg-info/PKG-INFO
+XHS_Downloader.egg-info/SOURCES.txt
+XHS_Downloader.egg-info/dependency_links.txt
+XHS_Downloader.egg-info/requires.txt
+XHS_Downloader.egg-info/top_level.txt
+deps/__init__.py
+deps/manager.py
+handlers/__init__.py
+handlers/server_handler.py
+handlers/tool_handler.py
+mcp_api/__init__.py
+mcp_api/client.py
+source/__init__.py

@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0-edge",
+  "description": "AlphaPlus Edge local MCP port allocation (subset of neura-runtime service_ports.json)",
+  "services": {
+    "xiaohongshu": {
+      "deployment": "edge",
+      "ports": { "api": 10350, "mcp": 10351 }
+    },
+    "wx_cli": {
+      "deployment": "edge",
+      "ports": { "api": 10475, "mcp": 10478 }
+    },
+    "opencli_weixin": {
+      "deployment": "edge",
+      "ports": { "api": 10485, "mcp": 10488 }
+    },
+    "wechat_viewer": {
+      "deployment": "edge",
+      "ports": { "api": 10470 },
+      "note": "backward-compatible alias for opencli_weixin"
+    },
+    "edge_agent": {
+      "deployment": "edge",
+      "ports": { "api": 10490 },
+      "metadata": { "health_endpoint": "/health" }
+    }
+  }
+}

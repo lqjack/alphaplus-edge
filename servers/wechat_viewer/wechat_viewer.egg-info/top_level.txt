@@ -1,0 +1,5 @@
+automation
+conf
+deps
+handlers
+ocr

@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "automation": {
+    "default_timeout": 10.0,
+    "max_retries": 3,
+    "retry_delay": 2.0,
+    "screenshot_quality": 95,
+    "enable_learning": true,
+    "enable_checkpointing": true
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file_enabled": true,
+    "console_enabled": true
+  },
+  "wechat": {
+    "bundle_id": "com.tencent.xinWeChat",
+    "process_names": ["WeChat", "微信"],
+    "search_timeout": 15.0,
+    "article_load_timeout": 10.0,
+    "ui_settle_time": 0.5
+  }
+}

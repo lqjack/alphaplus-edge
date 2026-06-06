@@ -1,0 +1,12 @@
+{
+  "platform": "windows",
+  "ui_automation_enabled": true,
+  "screenshot_method": "pyautogui",
+  "keyboard_method": "pyautogui",
+  "required_permissions": ["UI Automation", "Accessibility", "Screen Capture"],
+  "window_management": {
+    "bring_to_front_timeout": 10.0,
+    "visibility_check_retries": 3,
+    "restore_minimized": true
+  }
+}

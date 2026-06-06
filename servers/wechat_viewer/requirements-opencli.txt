@@ -1,0 +1,10 @@
+# Minimal deps for WECHAT_VIEWER_BACKEND=opencli (OpenCLIWeixinToolHandler only).
+# Install: uv pip install -r requirements-opencli.txt --python .mcp_venv/bin/python3.12
+mcp>=1.2.0
+flask>=3.0.0
+flask-cors>=4.0.0
+pydantic>=2.0.0
+httpx>=0.28.1
+loguru>=0.7.0
+python-dotenv>=1.0.1
+nest-asyncio>=1.6.0

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AlphaPlus Edge</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "SF Pro Text", "PingFang SC", system-ui, sans-serif;
+      background: #f3f5f8;
+      color: #111827;
+    }
+    body { margin: 0; padding: 24px; }
+    .card {
+      max-width: 520px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #d9dee7;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
+    }
+    h1 { font-size: 18px; margin: 0 0 8px; }
+    p { margin: 0 0 16px; color: #6b7280; font-size: 14px; line-height: 1.5; }
+    label { display: block; font-size: 12px; font-weight: 600; color: #536171; margin: 12px 0 6px; }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #d9dee7;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+    .actions { display: grid; gap: 10px; margin-top: 18px; }
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .primary { background: #111827; color: #fff; }
+    .secondary { background: #eef2ff; color: #3730a3; }
+    .danger { background: #fff0f1; color: #b4232f; }
+    pre {
+      margin-top: 16px;
+      background: #f9fafb;
+      border: 1px solid #e6ebf2;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-height: 120px;
+    }
+    .badge {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #ecfdf3;
+      color: #027a48;
+    }
+    .badge.off { background: #f9fafb; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="statusBadge" class="badge off">未启动</div>
+    <h1>AlphaPlus Edge Bridge</h1>
+    <p>本机 OpenCLI / wx-cli 桥接。一键启动 health server 与云端 WSS 隧道。</p>
+
+    <label for="gatewayUrl">Gateway URL</label>
+    <input id="gatewayUrl" placeholder="http://127.0.0.1:8001 或云端 Gateway" />
+
+    <label for="publicUrl">Public WSS Base (可选)</label>
+    <input id="publicUrl" placeholder="https://your-gateway.example.com" />
+
+    <label for="edgeId">Edge ID</label>
+    <input id="edgeId" value="local-edge" />
+
+    <label for="deviceToken">Device Token</label>
+    <input id="deviceToken" type="password" placeholder="注册后粘贴或轮换获得" />
+
+    <label for="healthPort">Health Port</label>
+    <input id="healthPort" type="number" value="10490" />
+
+    <div class="actions">
+      <button class="primary" id="startBtn">一键启动 Tunnel</button>
+      <button class="secondary" id="registerBtn">注册到 Gateway</button>
+      <button class="secondary" id="rotateBtn">轮换 Device Token</button>
+      <button class="danger" id="stopBtn">停止 Edge Stack</button>
+    </div>
+
+    <pre id="log">等待操作…</pre>
+  </div>
+
+  <script type="module">
+    const STORAGE_KEY = 'alphaplus-edge-config-v1';
+    const invoke = window.__TAURI__?.core?.invoke;
+    const logEl = document.getElementById('log');
+    const badge = document.getElementById('statusBadge');
+
+    function appendLog(message) {
+      const stamp = new Date().toLocaleTimeString();
+      logEl.textContent = `[${stamp}] ${message}\n` + logEl.textContent;
+    }
+
+    function readConfig() {
+      return {
+        gatewayUrl: document.getElementById('gatewayUrl').value.trim(),
+        publicUrl: document.getElementById('publicUrl').value.trim(),
+        edgeId: document.getElementById('edgeId').value.trim(),
+        deviceToken: document.getElementById('deviceToken').value.trim(),
+        healthPort: Number(document.getElementById('healthPort').value || 10490),
+      };
+    }
+
+    function saveConfig() {
+      const cfg = readConfig();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg));
+    }
+
+    function loadConfig() {
+      const defaults = {
+        gatewayUrl: '',
+        publicUrl: '',
+        edgeId: 'local-edge',
+        deviceToken: '',
+        healthPort: 10490,
+      };
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        Object.assign(defaults, saved);
+      } catch (_) {
+        /* ignore */
+      }
+      document.getElementById('gatewayUrl').value = defaults.gatewayUrl;
+      document.getElementById('publicUrl').value = defaults.publicUrl;
+      document.getElementById('edgeId').value = defaults.edgeId;
+      document.getElementById('deviceToken').value = defaults.deviceToken;
+      document.getElementById('healthPort').value = defaults.healthPort;
+    }
+
+    async function call(command, payload = {}) {
+      if (!invoke) {
+        appendLog('Tauri runtime 不可用。请使用打包后的 AlphaPlus Edge.app 或 `npm run dev`。');
+        return null;
+      }
+      try {
+        saveConfig();
+        const result = await invoke(command, payload);
+        appendLog(JSON.stringify(result, null, 2));
+        return result;
+      } catch (error) {
+        appendLog(String(error));
+        return null;
+      }
+    }
+
+    document.getElementById('startBtn').addEventListener('click', async () => {
+      const cfg = readConfig();
+      if (!cfg.gatewayUrl) {
+        appendLog('请先填写 Gateway URL');
+        return;
+      }
+      if (!cfg.deviceToken) {
+        appendLog('请先填写 Device Token（可先点击「注册到 Gateway」）');
+        return;
+      }
+      const result = await call('start_edge_stack', { config: cfg });
+      if (result?.running) {
+        badge.textContent = '运行中';
+        badge.classList.remove('off');
+      }
+    });
+
+    document.getElementById('registerBtn').addEventListener('click', async () => {
+      const cfg = readConfig();
+      if (!cfg.gatewayUrl) {
+        appendLog('请先填写 Gateway URL');
+        return;
+      }
+      const result = await call('register_with_gateway', { config: cfg });
+      if (result?.device_token) {
+        document.getElementById('deviceToken').value = result.device_token;
+        saveConfig();
+      }
+    });
+
+    document.getElementById('rotateBtn').addEventListener('click', async () => {
+      const result = await call('rotate_device_token', { config: readConfig() });
+      if (result?.device_token) {
+        document.getElementById('deviceToken').value = result.device_token;
+        saveConfig();
+      }
+    });
+
+    document.getElementById('stopBtn').addEventListener('click', async () => {
+      await call('stop_edge_stack');
+      badge.textContent = '未启动';
+      badge.classList.add('off');
+    });
+
+    loadConfig();
+    call('edge_stack_status').then((result) => {
+      if (result?.running) {
+        badge.textContent = '运行中';
+        badge.classList.remove('off');
+      }
+    });
+  </script>
+</body>
+</html>
